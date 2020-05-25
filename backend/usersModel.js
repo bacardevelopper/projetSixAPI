@@ -8,5 +8,5 @@ const users = new Schema({
 });
 
 //access model and exports
-const UsersModel = mongoose.model('UsersModels', users);
+const UsersModel = mongoose.model('UsersModel', users);
 module.exports = UsersModel;
