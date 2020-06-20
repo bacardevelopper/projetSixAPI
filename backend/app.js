@@ -29,11 +29,12 @@ app.use((req, res, next) => {
 	next();
 });
 
+console.log("allo");
 /* bodyParser analyseur */
 app.use(bodyParser.json());
 
 /* global middleware */
-app.get('/api/auth', userRoute);
+app.use('/api/auth', userRoute);
 
 /*****/
 module.exports = app;

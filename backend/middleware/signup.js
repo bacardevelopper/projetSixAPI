@@ -5,6 +5,7 @@ const express = require('express');
 exports.createUser = (req, res, next) => {
 	//
 	res.status(200);
+	res.json({un : "un"});
 	console.log('reussit middleware');
 	res.end();
 };
