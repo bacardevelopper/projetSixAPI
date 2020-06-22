@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const userRoute = require('./router');
 
 
@@ -8,7 +7,8 @@ const userRoute = require('./router');
 mongoose.connect('mongodb+srv://bddDeryos:deryos976@cluster0-it6zi.mongodb.net/bddDeryos?retryWrites=true&w=majority', 
 {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex : true
 })
 /* use promise for work in asynchrone */
 .then( () => {
@@ -30,11 +30,15 @@ app.use((req, res, next) => {
 });
 
 console.log("allo");
+
 /* bodyParser analyseur */
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded( {extended : true} ));
+
+
 
 /* global middleware */
-app.use('/api/auth', userRoute);
+app.use('/api/auth', userRoute); 
 
 /*****/
 module.exports = app;

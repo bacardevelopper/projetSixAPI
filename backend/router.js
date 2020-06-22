@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 /* importer middleware d'inscription */
 const signup = require('./middleware/signup');
-router.get('/signup', signup.createUser);
+router.post('/signup', signup.createUser);
+/* router.get('/login', login.connectUser); */
 
 module.exports = router;
