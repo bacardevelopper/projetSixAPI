@@ -1,4 +1,5 @@
 const express = require('express');
+
 /* la methide router permet de creer des routes express */
 const router = express.Router();
 /* importer middleware d'inscription */
