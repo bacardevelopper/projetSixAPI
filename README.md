@@ -8,6 +8,7 @@ path :
 							
 				|__middleware
 							|*signup.js
+							|*signin.js
 				|__node_modules
 				|_*app.js
 				|_*index.html
