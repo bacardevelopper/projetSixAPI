@@ -22,7 +22,6 @@ exports.createUser = (req, res, next) => {
 					console.log('Le hash  :'+hash +' et son :'+req.body.email);
 					/* step 4: */
 					req.body.mdp = hash;
-
 					const userValue = req.body
 
 					const user = new UserModel({
@@ -30,8 +29,15 @@ exports.createUser = (req, res, next) => {
 						mdp : hash
 					});
 
-					console.log(user);
+					user.save((err) => {
+						console.log('user create');
+					});
 
+					console.log('user modeliser '+ user + 'la suite en bas'+ '\n');
+
+					UserModel.find({}, function (err, docs) {
+						console.log(docs);
+					});
 					//save in mongodb
 
 				})
