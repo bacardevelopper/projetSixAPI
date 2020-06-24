@@ -15,5 +15,7 @@ path :
 				|_*package-lock.json
 				|_*package.json
 				|_*router.js
-				|_*app.js
+				|_*server.js
+				|_*userModel.js
+				|_*README.md
 
