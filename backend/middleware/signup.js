@@ -13,7 +13,6 @@ const saltRounds = 10;
 step 4: save in mongoodb */
 exports.createUser = (req, res, next) => {
 
-	
 	console.log('reussit middleware');
 	if(req.body.email !== "" && req.body.mdp !== ""){
 		if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email)){
@@ -29,16 +28,21 @@ exports.createUser = (req, res, next) => {
 						mdp : hash
 					});
 
+					/* ## step 4: save in mongodb */
 					user.save((err) => {
-						console.log('user create');
+						if(err){
+							console.log('user exist no create another user with this email');
+						}else{
+							console.log('user create');
+						}
 					});
 
 					console.log('user modeliser '+ user + 'la suite en bas'+ '\n');
 
 					UserModel.find({}, function (err, docs) {
-						console.log(docs);
+						console.log(docs); // affich un à un les données du bdd
 					});
-					//save in mongodb
+					
 
 				})
 				.catch(error => {
