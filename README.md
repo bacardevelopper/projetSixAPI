@@ -2,8 +2,7 @@
 building an API in nodeJs
 
 *list modules use by this API
-path :
-	projetSixAPI 
+path : projetSixAPI 
 				|__backend
 							
 				|__middleware
