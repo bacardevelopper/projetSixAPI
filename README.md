@@ -7,7 +7,7 @@ path :
 				|__backend
 							
 				|__middleware
-							|_*signup.js
+							|*signup.js
 				|__node_modules
 				|_*app.js
 				|_*index.html
