@@ -1,7 +1,7 @@
 # projetSixAPI (student project)
 building an API in nodeJs
 
-*list modules use by this API
+## list modules use by this API
 path : projetSixAPI 
 
 				|__backend
@@ -17,5 +17,6 @@ path : projetSixAPI
 					router.js
 					server.js
 					userModel.js
+					sauceModel.js
 					README.md
 
