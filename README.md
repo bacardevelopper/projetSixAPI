@@ -2,6 +2,14 @@
 building an API in nodeJs
 
 ## list modules use by this API
+
+### express
+### http
+### mongoose
+### multer
+### jsonwebtoken
+### bcrypt
+
 path : projetSixAPI 
 
 				|__backend
