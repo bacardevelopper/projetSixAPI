@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const userRoute = require('./router');
 
 
+
 /* connect dbb mongoose */
 mongoose.connect('mongodb+srv://bddDeryos:deryos976@cluster0-it6zi.mongodb.net/bddDeryos?retryWrites=true&w=majority', 
 {
@@ -36,7 +37,8 @@ app.use(express.json());
 app.use(express.urlencoded( {extended : true} ));
 
 /* global middleware */
-app.use('/api/auth', userRoute); 
+app.use('/api/auth', userRoute);
+app.get('/api/', userRoute); 
 
 /*****/
 module.exports = app;
