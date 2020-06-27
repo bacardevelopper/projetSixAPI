@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
-const UserModel = require("../userModel");
+const UserModel = require("../model/userModel");
 const jwt = require('jsonwebtoken');
-const path = require('path');
 /*                                      */
 
 exports.loginUser = (req, res, next) => {
@@ -15,6 +14,7 @@ exports.loginUser = (req, res, next) => {
             .compare(req.body.mdp, user.mdp)
             .then((valid) => {
               if (valid) {
+
                 /* retourner un token */
                 res.status(200)
                   .json({
@@ -24,12 +24,10 @@ exports.loginUser = (req, res, next) => {
                   	token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
                   	{expiresIn : '24h'}) 
                   	
-
                   });
-                /* renvoyer une page html */
-               
-                
               }
+
+
             })
             .catch((error) => {
               return res.status(401);

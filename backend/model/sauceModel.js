@@ -12,11 +12,11 @@ const sauce = new Schema({
 	description : {type: String, required : true},
 	maniPepper : {type : String, required : true},
 	imageUrl : {type : String, required : true},
-	heat : {type : Number , required : true}
+	heat : {type : Number , required : true},
 	likes : {type : Number , required : true},
 	dislikes : {type : Number, required : true},
-	usersLiked : /* array d'id */,
-	usersDisliked : /* array */
+	usersLiked : [],
+	usersDisliked :[ /* array */]
 });
 
 
