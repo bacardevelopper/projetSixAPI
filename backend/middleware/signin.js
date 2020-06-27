@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const UserModel = require("../userModel");
 const jwt = require('jsonwebtoken');
+const path = require('path');
 /*                                      */
 
 exports.loginUser = (req, res, next) => {
@@ -9,13 +10,13 @@ exports.loginUser = (req, res, next) => {
     UserModel.findOne({ email: req.body.email })
       .then((user) => {
         if (user) {
-          /* on compare les mot de passe si c'est me bon */
+          /* on compare les mot de passe si c'est le bon */
           bcrypt
             .compare(req.body.mdp, user.mdp)
             .then((valid) => {
               if (valid) {
                 /* retourner un token */
-                return res.status(200)
+                res.status(200)
                   .json({
 
                   	message: "utilisateur trouvé et bon mdp",
@@ -25,6 +26,9 @@ exports.loginUser = (req, res, next) => {
                   	
 
                   });
+                /* renvoyer une page html */
+               
+                
               }
             })
             .catch((error) => {
