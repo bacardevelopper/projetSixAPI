@@ -5,21 +5,26 @@ const jwt = require('jsonwebtoken');
 
 exports.loginUser = (req, res, next) => {
   if (req.body.email !== "") {
-
+    console.log(req.body);
     UserModel.findOne({ email: req.body.email })
       .then((user) => {
+        console.log(user.mdp +' '+req.body.password);
         if (user) {
           /* on compare les mot de passe si c'est le bon */
           bcrypt
-            .compare(req.body.mdp, user.mdp)
-            .then((valid) => {
-              if (valid) {
+            .compare(req.body.password, user.mdp)
 
+            .then((valid) => {
+              console.log('text de test l7');
+              if (valid) {
+                console.log({userId : user._id, 
+                    token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
+                    {expiresIn : '24h'}) 
+                    
+                  });
                 /* retourner un token */
                 res.status(200)
                   .json({
-
-                  	message: "utilisateur trouvé et bon mdp",
                    	userId : user._id, 
                   	token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
                   	{expiresIn : '24h'}) 
