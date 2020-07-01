@@ -17,11 +17,6 @@ exports.loginUser = (req, res, next) => {
             .then((valid) => {
               console.log('le mot de passe correspond');
               if (valid) {
-                console.log({userId : user._id, 
-                    token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
-                    {expiresIn : '24h'}) 
-                    
-                  });
                 /* retourner un token */
                 res.status(200)
                   .json({

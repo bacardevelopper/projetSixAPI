@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const userRoute = require('./router/routeruser');
+const saucesRoute = require('./router/routersauces');
 
 
 
@@ -30,15 +31,15 @@ app.use((req, res, next) => {
 	next();
 });
 
-console.log("allo");
+console.log(" ** hello world fullstack student ** ");
 
 /* parser */
 app.use(express.json());
 app.use(express.urlencoded( {extended : true} ));
 
-/* global middleware */
+/* global middleware sauces et users*/
 app.use('/api/auth', userRoute);
-/* app.use('/api', userRoute); */
+
 
 
 /*****/
