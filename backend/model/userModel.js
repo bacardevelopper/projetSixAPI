@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 /* model instanciation */
 const user = new Schema({
 	email : {type : String, min : 4, required : true} ,
-	mdp : {type : String, min : 4, required : true}
+	password : {type : String, min : 4, required : true}
 });
 
 

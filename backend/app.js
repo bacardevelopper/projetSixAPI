@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const userRoute = require('./router/router');
+const userRoute = require('./router/routeruser');
 
 
 
@@ -38,7 +38,8 @@ app.use(express.urlencoded( {extended : true} ));
 
 /* global middleware */
 app.use('/api/auth', userRoute);
-app.use('/api', userRoute); 
+/* app.use('/api', userRoute); */
+
 
 /*****/
 module.exports = app;

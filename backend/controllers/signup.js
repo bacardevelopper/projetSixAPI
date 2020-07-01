@@ -20,39 +20,27 @@ exports.createUser = (req, res, next) => {
 
           const user = new UserModel({
             email: req.body.email,
-            mdp: hash,
+            password: hash,
           });
           
           /* ## step 4: save in mongodb */
-          user
-            .save()
-              .then(() => {
-                console.log("user create");
-                res.status(200)
-                  .json({message : 'message'});
-
-              })
-              .catch(() => {
-                console.log("erreur");
-              });
-
-          /* console.log("user modeliser " + user + "la suite en bas" + "\n"); */
-
-          /* en pause
-          UserModel.find({}, (err, docs) => {
-            console.log(docs); // affich un à un les données du bdd
+          user.save((err) => {
+            if(!err){
+              res.status(201).json({message : 'user create'});
+              console.log('enregistrement avec succéss');
+            }else{
+              res.json({error : 'user no create'});
+              console.log('user non enregistré');
+            }
           });
-          */
+
         })
         .catch((error) => {
           console.log(error);
         });
-
     }
 
   } else {
     console.log("error sur les champs");
   }
-
-  res.end();
 };

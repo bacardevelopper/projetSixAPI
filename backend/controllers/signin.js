@@ -8,14 +8,14 @@ exports.loginUser = (req, res, next) => {
     console.log(req.body);
     UserModel.findOne({ email: req.body.email })
       .then((user) => {
-        console.log(user.mdp +' '+req.body.password);
+        console.log(user.password +' '+req.body.password);
         if (user) {
           /* on compare les mot de passe si c'est le bon */
           bcrypt
-            .compare(req.body.password, user.mdp)
+            .compare(req.body.password, user.password)
 
             .then((valid) => {
-              console.log('text de test l7');
+              console.log('le mot de passe correspond');
               if (valid) {
                 console.log({userId : user._id, 
                     token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
@@ -48,7 +48,7 @@ exports.loginUser = (req, res, next) => {
       });
 
   } else {
-    res.status(500).json({ message: "champ vide" });
+    res.status(500).json({ error : "champ vide" });
     console.log("champ vide");
   }
 };
