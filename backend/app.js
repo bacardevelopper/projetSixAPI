@@ -1,9 +1,12 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const userRoute = require('./router/routeruser');
 const saucesRoute = require('./router/routersauces');
 
 
+/* create app express */
+const app = express();
 
 /* connect dbb mongoose */
 mongoose.connect('mongodb+srv://bddDeryos:deryos976@cluster0-it6zi.mongodb.net/bddDeryos?retryWrites=true&w=majority', 
@@ -20,8 +23,6 @@ mongoose.connect('mongodb+srv://bddDeryos:deryos976@cluster0-it6zi.mongodb.net/b
 	console.log('connexion in mongoDB is not ok');
 });
 
-/* create app express */
-const app = express();
 
 /* Headers // CORS # configured by express module */
 app.use((req, res, next) => {
@@ -31,14 +32,16 @@ app.use((req, res, next) => {
 	next();
 });
 
-console.log(" ** hello world fullstack student ** ");
+
 
 /* parser */
-app.use(express.json());
-app.use(express.urlencoded( {extended : true} ));
+app.use(bodyParser.json());
+console.log(" ** hello world fullstack student ** ");
+
 
 /* global middleware sauces et users*/
 app.use('/api/auth', userRoute);
+app.use('/api/sauces', saucesRoute);
 
 
 

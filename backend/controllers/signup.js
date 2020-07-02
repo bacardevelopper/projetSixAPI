@@ -2,7 +2,6 @@ const bcrypt = require("bcrypt");
 const UserModel = require("../model/userModel");
 /*                                   */
 const saltRounds = 10;
-
 /* the function for signup user */
 /* ## step 1: verify value !== "" , step 2: regex email, step 3: hash password, 
 step 4: save in mongoodb */

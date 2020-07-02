@@ -15,7 +15,7 @@ exports.loginUser = (req, res, next) => {
             .compare(req.body.password, user.password)
 
             .then((valid) => {
-              console.log('le mot de passe correspond');
+              console.log('le mot de passe correspond '+req.body.email);
               if (valid) {
                 /* retourner un token */
                 res.status(200)
