@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
 const userRoute = require('./router/routeruser');
 const saucesRoute = require('./router/routersauces');
-
 
 /* create app express */
 const app = express();
@@ -33,16 +33,18 @@ app.use((req, res, next) => {
 });
 
 
-
 /* parser */
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+	extended : true
+}));
+
 console.log(" ** hello world fullstack student ** ");
 
 
 /* global middleware sauces et users*/
 app.use('/api/auth', userRoute);
-app.use('/api/sauces', saucesRoute);
-
+app.use('/api', saucesRoute);
 
 
 /*****/

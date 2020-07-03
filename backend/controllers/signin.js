@@ -4,7 +4,9 @@ const jwt = require('jsonwebtoken');
 /*                                      */
 
 exports.loginUser = (req, res, next) => {
+
   if (req.body.email !== "") {
+    
     console.log(req.body);
     UserModel.findOne({ email: req.body.email })
       .then((user) => {
@@ -22,12 +24,9 @@ exports.loginUser = (req, res, next) => {
                   .json({
                    	userId : user._id, 
                   	token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
-                  	{expiresIn : '24h'}) 
-                  	
+                  	{expiresIn : '24h'})
                   });
               }
-
-
             })
             .catch((error) => {
               return res.status(401);
