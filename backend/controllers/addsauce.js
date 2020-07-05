@@ -7,8 +7,8 @@ exports.addSauce = (req, res, next) => {
 	console.log(dataInsert);
 	console.log(dataInsert.name);
 
-	const like = 1;
-	const dislike = 1;
+	const like = 0;
+	const dislike = 0;
 	const tabUserLike = [];
 	const tabUserDislike = [];
 	

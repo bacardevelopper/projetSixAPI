@@ -6,7 +6,7 @@ const multer = require('../middleware/uploaderAlgo');
 const routersauces = express.Router();
 /* importer middleware d'inscription */
 
-routersauces.post('/sauces', multer, fonctionAdd.addSauce);
+routersauces.post('/sauces', auth, multer, fonctionAdd.addSauce);
 
 
 module.exports = routersauces;

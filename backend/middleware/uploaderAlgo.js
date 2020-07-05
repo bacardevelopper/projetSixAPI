@@ -8,13 +8,13 @@ const MIME_TYPES = {
 };
 
 const storage = multer.diskStorage({
-	destination : (req, file, callback) => {
-		callback(null, 'uploadfiles')
+	destination : (req, file, cb) => {
+		cb(null, 'uploadfiles')
 	},
-	filename : (req, file, callback) => {
+	filename : (req, file, cb) => {
 		const name = 'file'+file.originalname.split(' ').join('_');
 		const extension = MIME_TYPES[file.mimetype];
-		callback(null, name + Date.now() + '.' +extension);
+		cb(null, name + Date.now() + '.' +extension);
 	}
 });
 
