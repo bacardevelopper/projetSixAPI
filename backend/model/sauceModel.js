@@ -9,11 +9,11 @@ const sauce = new Schema({
 	name : {type : String,  required : true}, /* nom de la sauce */
 	manufacturer : {type: String, required : true}, /* nom du fabricant */
 	description : {type: String, required : true}, /* description de la sauce */
-	maniPepper : {type : String, required : true}, /* principal ingredient e la sauce */
+	mainPepper : {type : String, required : true}, /* principal ingredient e la sauce */
 	imageUrl : {type : String, required : true}, /* lien de l'url */
-	heat : {type : Number , required : true}, /* note de la sauce */
-	likes : {type : Number , required : true}, 
-	dislikes : {type : Number, required : true},
+	heat : {type : Number , required : false}, /* note de la sauce */
+	likes : {type : Number , required : false}, 
+	dislikes : {type : Number, required : false},
 	usersLiked : [/* array */ ],
 	usersDisliked :[ /* array */]
 });
