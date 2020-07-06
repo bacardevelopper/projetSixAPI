@@ -1,12 +1,17 @@
 const express = require('express');
 const auth = require('../middleware/authentification');
-const fonctionAdd = require('../controllers/addsauce');
+const fctAdd = require('../controllers/addsauce');
 const multer = require('../middleware/uploaderAlgo');
+const fctDeleteOne = require('../controllers/deleteOne');
+const fctReturnAll = require('../controllers/returnallsauces');
+
 /* la methide router permet de creer des routes express */
 const routersauces = express.Router();
 /* importer middleware d'inscription */
 
-routersauces.post('/sauces', auth, multer, fonctionAdd.addSauce);
+routersauces.post('/sauces', auth, multer, fctAdd.addSauce);
+routersauces.get('/sauces/:id', auth, multer, fctDeleteOne.deleteUn);
+routersauces.get('/sauces', auth, multer, fctReturnAll.returnAll);
 
 
 module.exports = routersauces;
