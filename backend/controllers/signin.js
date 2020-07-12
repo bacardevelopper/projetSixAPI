@@ -8,18 +8,19 @@ exports.loginUser = (req, res, next) => {
   if (req.body.email !== "") {
     
     console.log(req.body);
+
     UserModel.findOne({ email: req.body.email })
       .then((user) => {
-        console.log(user.password +' '+req.body.password);
+        console.log(user.password);
         if (user) {
-          /* on compare les mot de passe si c'est le bon */
+          // on compare les mot de passe si c'est le bon 
           bcrypt
             .compare(req.body.password, user.password)
 
             .then((valid) => {
               console.log('le mot de passe correspond '+req.body.email);
               if (valid) {
-                /* retourner un token */
+                //retourner un token 
                 res.status(200)
                   .json({
                    	userId : user._id, 
@@ -45,4 +46,5 @@ exports.loginUser = (req, res, next) => {
     res.status(500).json({ error : "champ vide" });
     console.log("champ vide");
   }
+
 };

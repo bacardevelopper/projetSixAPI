@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const userRoute = require('./router/routeruser');
 const saucesRoute = require('./router/routersauces');
+const path = require('path');
 
 /* create app express */
 const app = express();
@@ -20,7 +21,7 @@ mongoose.connect('mongodb+srv://bddDeryos:deryos976@cluster0-it6zi.mongodb.net/b
 	console.log("connexion in mongoDB  is ok ");
 })
 .catch( () => {
-	console.log('connexion in mongoDB is not ok');
+	console.log('echec');
 });
 
 
@@ -45,6 +46,7 @@ console.log(" ** hello world fullstack student ** ");
 /* global middleware sauces et users*/
 app.use('/api/auth', userRoute);
 app.use('/api', saucesRoute);
+app.use(express.static(path.join(__dirname,'/uploadfiles')));
 
 
 /*****/

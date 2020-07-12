@@ -22,7 +22,7 @@ exports.createUser = (req, res, next) => {
             password: hash,
           });
           
-          /* ## step 4: save in mongodb */
+          // ## step 4: save in mongodb 
           user.save((err) => {
             if(!err){
               res.status(201).json({message : 'user create'});
@@ -42,4 +42,5 @@ exports.createUser = (req, res, next) => {
   } else {
     console.log("error sur les champs");
   }
+  
 };
