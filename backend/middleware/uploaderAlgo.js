@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
 		cb(null, 'uploadfiles')
 	},
 	filename : (req, file, cb) => {
-		const name = file.originalname.split(' ').join('_');
+		const name = file.originalname.split(' ').join('');
 		const withoutDot = name.split('.').join('_');
 		const extension = MIME_TYPES[file.mimetype];
 		cb(null, withoutDot + Date.now() + '.' +extension);

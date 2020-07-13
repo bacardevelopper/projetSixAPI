@@ -5,6 +5,7 @@ const saltRounds = 10;
 /* the function for signup user */
 /* ## step 1: verify value !== "" , step 2: regex email, step 3: hash password, 
 step 4: save in mongoodb */
+
 exports.createUser = (req, res, next) => {
 
   if (req.body.email !== "" && req.body.password !== "") {
@@ -19,7 +20,7 @@ exports.createUser = (req, res, next) => {
 
           const user = new UserModel({
             email: req.body.email,
-            password: hash,
+            password: hash
           });
           
           // ## step 4: save in mongodb 
