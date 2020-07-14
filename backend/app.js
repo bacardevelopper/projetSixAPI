@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const userRoute = require('./router/routeruser');
 const saucesRoute = require('./router/routersauces');
-
+const path = require('path');
 /* create app express */
 const app = express();
 
@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({
 
 console.log(" ** hello world fullstack student ** ");
 
-
+app.use('/uploadfiles', express.static(path.join(__dirname, 'uploadfiles')));
 /* global middleware sauces et users*/
 app.use('/api/auth', userRoute);
 app.use('/api', saucesRoute);
