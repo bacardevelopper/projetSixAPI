@@ -1,7 +1,7 @@
 const modelSauce = require('../model/sauceModel');
 
 exports.addSauce = (req, res, next) => {
-
+	
 	const dataInsert = JSON.parse(req.body.sauce);
 
 	console.log(dataInsert);
@@ -19,7 +19,7 @@ exports.addSauce = (req, res, next) => {
 			manufacturer : dataInsert.manufacturer,
 			description : dataInsert.description, 
 			mainPepper : dataInsert.mainPepper, 
-			imageUrl : req.protocol+'://'+req.get('host')+'/uploadfiles/'+req.file.filename,
+			imageUrl : `${req.protocol}://${req.get('host')}/backend/uploadfiles/${req.file.filename}`,
 			heat : dataInsert.heat, 
 			likes : like, 
 			dislikes : dislike,
