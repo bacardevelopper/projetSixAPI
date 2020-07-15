@@ -1,5 +1,10 @@
+/* modules used */
 const modelSauce = require('../model/sauceModel');
+/* modules used */
 
+
+
+/* function add a sauce in bdd */
 exports.addSauce = (req, res, next) => {
 	
 	const dataInsert = JSON.parse(req.body.sauce);
@@ -41,3 +46,32 @@ exports.addSauce = (req, res, next) => {
 	
 	
 }
+
+/* function delete sauce in bdd */
+/* delete , /api/sauces/:id , {message : 'suppression reussi */
+exports.deleteUn = (req, res, next) => {
+
+}
+
+/* function return all sauce in bdd */
+exports.returnAll = (req, res, next) => {
+	modelSauce.find({}, (err, docs) => {
+		if(!err){
+			res.status(200).json(docs);
+			console.log(docs);	
+		}
+	});
+}
+
+
+/* function return one sauce with _id */
+exports.oneSauce = (req, res, next) => {
+	modelSauce.findOne({_id : req.params.id}, (err, docs) => {
+		if(!err){
+			res.status(200).json(docs);
+		}else{
+			
+		}
+	});	
+}
+

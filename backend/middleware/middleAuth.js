@@ -1,7 +1,8 @@
+/* modules used */
 const jwt = require('jsonwebtoken');
 
-/* commentaires de texte */
-//module exportable authentification
+
+/* module export function very token authentification */
 module.exports = (req, res, next) => {
 	try{
 		const token = req.headers.authorization.split(' ')[1];

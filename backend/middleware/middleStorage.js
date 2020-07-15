@@ -1,4 +1,5 @@
 const multer = require('multer');
+/* modules used */
 
 
 const MIME_TYPES = {
@@ -16,8 +17,8 @@ const storage = multer.diskStorage({
 		const name = file.originalname.split(' ').join('');
 		const withoutDot = name.split('.').join('_');
 
-		const extension = MIME_TYPES[file.mimetype];
-		cb(null, name + Date.now() + '.' +extension);
+		const ext = MIME_TYPES[file.mimetype];
+		cb(null, 'FileId'+  name + Date.now() + '.' + ext);
 	}
 });
 

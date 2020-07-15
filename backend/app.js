@@ -1,9 +1,11 @@
+/* modules used */
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+/* modules used */
 
-const userRoute = require('./router/routeruser');
-const saucesRoute = require('./router/routersauces');
+const routersUser = require('./router/routersUser');
+const routersSauce = require('./router/routersSauce');
 const path = require('path');
 /* create app express */
 const app = express();
@@ -43,8 +45,8 @@ console.log(" ** hello world fullstack student ** ");
 
 app.use('/uploadfiles', express.static(path.join(__dirname, 'uploadfiles')));
 /* global middleware sauces et users*/
-app.use('/api/auth', userRoute);
-app.use('/api', saucesRoute);
+app.use('/api/auth', routersUser);
+app.use('/api', routersSauce);
 
 
 /*****/
