@@ -2,8 +2,6 @@
 const modelSauce = require('../model/sauceModel');
 /* modules used */
 
-
-
 /* function add a sauce in bdd */
 exports.addSauce = (req, res, next) => {
 	
@@ -44,7 +42,6 @@ exports.addSauce = (req, res, next) => {
 	});
 	
 	
-	
 }
 
 /* function delete sauce in bdd */
@@ -58,7 +55,7 @@ exports.returnAll = (req, res, next) => {
 	modelSauce.find({}, (err, docs) => {
 		if(!err){
 			res.status(200).json(docs);
-			console.log(docs);	
+			console.log('renvoit tous les sauces');	
 		}
 	});
 }
@@ -73,5 +70,14 @@ exports.oneSauce = (req, res, next) => {
 			
 		}
 	});	
+}
+
+//function modify a sauce
+exports.modifySauce = (req, res, next) => {
+	modelSauce.findOne({ _id : req.params.id} , (err, docs) => {
+		if(!err){
+		}else{
+		}
+	});
 }
 

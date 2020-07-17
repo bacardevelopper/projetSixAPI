@@ -2,11 +2,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require('path');
 /* modules used */
 
+/* routers used */
 const routersUser = require('./router/routersUser');
 const routersSauce = require('./router/routersSauce');
-const path = require('path');
+/* routers used */
+
 /* create app express */
 const app = express();
 

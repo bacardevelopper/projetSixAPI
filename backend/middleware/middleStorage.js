@@ -9,17 +9,20 @@ const MIME_TYPES = {
 };
 
 const storage = multer.diskStorage({
+
 	destination : (req, file, cb) => {
-		cb(null, 'uploadfiles')
+		cb(null, 'uploadfiles');
 	},
+
 	filename : (req, file, cb) => {
 
 		const name = file.originalname.split(' ').join('');
 		const withoutDot = name.split('.').join('_');
 
 		const ext = MIME_TYPES[file.mimetype];
-		cb(null, 'FileId'+  name + Date.now() + '.' + ext);
+		cb(null, 'FileId'+  withoutDot + Date.now() + '.' + ext);
 	}
+	
 });
 
 module.exports = multer({storage}).single('image');

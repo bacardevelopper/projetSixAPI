@@ -61,10 +61,9 @@ const saltRounds = 10;
 step 4: save in mongoodb */
 
 exports.createUser = (req, res, next) => {
-
   if (req.body.email !== "" && req.body.password !== "") {
-
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email)) {
+      
       bcrypt
         .hash(req.body.password, saltRounds)
         .then((hash) => {
