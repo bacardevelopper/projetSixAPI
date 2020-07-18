@@ -74,9 +74,26 @@ exports.oneSauce = (req, res, next) => {
 
 //function modify a sauce
 exports.modifySauce = (req, res, next) => {
+	const sauceMdf = req.file ?
+		{
+			...req.body,
+			imageUrl : `${req.protocol}://${req.get('host')}/uploadfiles/${req.file.filename}`
+		}
+		: {...req.body}
+
 	modelSauce.findOne({ _id : req.params.id} , (err, docs) => {
 		if(!err){
-		}else{
+			console.log(sauceMdf);
+			/* operateur spread */
+			modelSauce.updateOne({_id : req.params.id}, {...sauceMdf, _id : req.params.id})
+				.then( () => {
+					console.log('enr° ok');
+					res.status(200).json({message : 'enr° ok'});
+				})
+				.catch( () => {
+					console.log('enr° not ok');
+					res.status(400).json({error});
+				});
 		}
 	});
 }
