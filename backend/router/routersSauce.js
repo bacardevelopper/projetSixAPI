@@ -10,6 +10,7 @@ muyRouterSauces.post('/sauces', auth, multer, fctSauces.addSauce);
 muyRouterSauces.get('/sauces/:id', auth, fctSauces.oneSauce);
 muyRouterSauces.get('/sauces', auth, multer, fctSauces.returnAll);
 muyRouterSauces.put('/sauces/:id', auth, multer, fctSauces.modifySauce);
+muyRouterSauces.delete('/sauces/:id', auth, fctSauces.deleteOne);
 
 
 

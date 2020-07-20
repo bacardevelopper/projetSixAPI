@@ -46,7 +46,15 @@ exports.addSauce = (req, res, next) => {
 
 /* function delete sauce in bdd */
 /* delete , /api/sauces/:id , {message : 'suppression reussi */
-exports.deleteUn = (req, res, next) => {
+exports.deleteOne = (req, res, next) => {
+	modelSauce.deleteOne({_id : req.params.id}, (err, docs) => {
+		if(!err){
+			res.status(200).json({message : 'la sauce a bien été supprimé'});
+			console.log('suppression de la sauce');
+		}else{
+			console.log('ça na pas marché');
+		}
+	})
 
 }
 
