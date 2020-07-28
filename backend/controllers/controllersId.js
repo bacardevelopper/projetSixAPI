@@ -14,27 +14,26 @@ exports.loginUser = (req, res, next) => {
     console.log(req.body);
     UserModel.findOne({ email: req.body.email })
       .then((user) => {
-        console.log(user.password +' '+req.body.password);
+        console.log(user.password +' '+ req.body.password);
         if (user) {
           /* on compare les mot de passe si c'est le bon */
           bcrypt
             .compare(req.body.password, user.password)
-
-            .then((valid) => {
-              console.log('le mot de passe correspond '+req.body.email);
-              if (valid) {
-                /* retourner un token */
-                res.status(200)
-                  .json({
-                   	userId : user._id, 
-                  	token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
-                  	{expiresIn : '24h'})
-                  });
-              }
-            })
-            .catch((error) => {
-              return res.status(401);
-            });
+              .then((valid) => {
+                
+                if (valid) {
+                  /* retourner un token */
+                  res.status(200)
+                    .json({
+                     	userId : user._id, 
+                    	token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
+                    	{expiresIn : '24h'})
+                    });
+                }
+              })
+              .catch((error) => {
+                return res.status(401).json({message : error});
+              });
         } else {
           return res.status(401).json({ error: "utilisateur non trouvé" });
         }
@@ -42,7 +41,7 @@ exports.loginUser = (req, res, next) => {
       .catch((error) => {
         res
           .status(500)
-          .json({ error: "erreur verifier que vos id correspondent" });
+          .json({ message : "erreur verifier que vos id correspondent" });
       });
 
   } else {

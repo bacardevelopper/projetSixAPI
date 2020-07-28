@@ -17,7 +17,6 @@ exports.addSauce = (req, res, next) => {
 	console.log(dataInsert);
 	console.log(dataInsert.name);
 
-	const unTester = 1;
 	const like = 0;
 	const dislike = 0;
 	const tabUserLike = [];
@@ -114,9 +113,34 @@ exports.modifySauce = (req, res, next) => {
 }
 
 
+
 exports.likeAndDislike = (req, res, next) => {
-	/* verifier si nouveaux donné entrant, recuperer, traiter, renvoyer ,
-	router req.body.likes contient -1 ou 1*/
-	/* req.body contient {userId , like}*/
-	console.log(req.body);
+	let dataCompare = req.body;
+	/* id de la sauce */
+	let idCompare = req.params.id;
+	
+	/* */
+	modelSauce.findOne({ _id : idCompare},(err, docs) => {
+		if(!err){
+			let docsTabLiked = docs.usersLiked;
+			let docsTabDisLiked = docs.usersDisliked;
+
+			for(let i = 0; i <= docsTabLiked.length; i++){
+				/* verifier que l'id n'est pas present dans l'array */
+				if(dataCompare.userId !== docs.usersLiked[i]){
+					console.log(docsTabLiked);
+					console.log(docsTabLiked[0]);
+					console.log(docsTabLiked);
+				}else{
+					console.log('erreur au niveau boucle condition');
+				}
+			}
+
+			console.log(idCompare);
+
+
+		}else{
+			console.log(err);
+		}
+	});
 }
