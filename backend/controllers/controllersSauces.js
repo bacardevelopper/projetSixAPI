@@ -158,15 +158,17 @@ exports.likeAndDislike = (req, res, next) => {
 
       break;
 
+      /* comprend le code pour j'aime pas */
     case -1:
       //
       break;
 
+    /* annulation */
     case 0:
       //
       break;
 
     default:
-      console.log("ni j'aime ni j'aime pas");
+      console.log("si tu es ici c'est qui y'a un gros soucis mon coco");
   }
 };
