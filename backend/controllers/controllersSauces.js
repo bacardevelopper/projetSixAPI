@@ -47,6 +47,8 @@ exports.addSauce = (req, res, next) => {
   });
 };
 
+
+
 /* function delete sauce in bdd */
 /* delete , /api/sauces/:id , {message : 'suppression reussi */
 exports.deleteOne = (req, res, next) => {
@@ -60,6 +62,8 @@ exports.deleteOne = (req, res, next) => {
   });
 };
 
+
+
 /* function return all sauce in bdd */
 exports.returnAll = (req, res, next) => {
   modelSauce.find({}, (err, docs) => {
@@ -70,6 +74,8 @@ exports.returnAll = (req, res, next) => {
   });
 };
 
+
+
 /* function return one sauce with _id */
 exports.oneSauce = (req, res, next) => {
   modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
@@ -79,6 +85,8 @@ exports.oneSauce = (req, res, next) => {
     }
   });
 };
+
+
 
 //function modify a sauce
 exports.modifySauce = (req, res, next) => {
@@ -109,11 +117,16 @@ exports.modifySauce = (req, res, next) => {
   });
 };
 
+
+/* fonctions pour j'aime et j'aime pas */
 exports.likeAndDislike = (req, res, next) => {
+  /* block de variables */
   let dataCompare = req.body; // {like , userId}
   let idCompare = req.params.id; /* id de la sauce */
-  let test;
+  let test; /* true or false */
   let docsTabLiked;
+  let docsTabDislike;
+  /* block de variables */
 
   switch (dataCompare.like) {
 
@@ -123,18 +136,13 @@ exports.likeAndDislike = (req, res, next) => {
       modelSauce.findOne({ _id: idCompare }, (err, docs) => {
 
         if (!err) {
+
           res.status(200).json({ message: "op" });
           docsTabLiked = docs.usersLiked; /* tableaux des likes */
           console.log(dataCompare);
 
           /* vrefifier si userId est dans le tableaux */
           test = docsTabLiked.includes(dataCompare.userId);
-
-          /* les consoles tester */
-          console.log(test);
-          console.log(docsTabLiked);
-          console.log(idCompare);
-          /* les consoles tester */
 
           if (test === false) {
 
@@ -158,9 +166,38 @@ exports.likeAndDislike = (req, res, next) => {
 
       break;
 
-      /* comprend le code pour j'aime pas */
+    /* comprend le code pour j'aime pas */
     case -1:
-      //
+      modelSauce.findOne({ _id: idCompare }, (err, docs) => {
+
+        if (!err) {
+          
+          res.status(200).json({ message: "op" });
+          docsTabLiked = docs.usersLiked; /* tableaux des likes */
+          console.log(dataCompare);
+
+          /* vrefifier si userId est dans le tableaux */
+          test = docsTabLiked.includes(dataCompare.userId);
+
+          if (test === false) {
+
+            console.log(test);
+            /* $push : ajoute userId ans l'array, et $inc : incremente dans la bdd */
+            modelSauce.updateOne({ _id: idCompare },{$push: { usersLiked: dataCompare.userId },$inc: { likes: -1 },}, (err, docs) => {
+              if(!err){
+                res.json({message : 'like bien modifier'});
+              }else{
+                res.status(400).json({message : 'error'});
+              }
+            });
+
+          }
+        } else {
+          test = true;
+        }
+      });
+
+      console.log(test);
       break;
 
     /* annulation */
