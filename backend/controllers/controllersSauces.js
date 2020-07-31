@@ -1,13 +1,7 @@
 /* modules used */
 const modelSauce = require("../model/sauceModel");
-const fs = require("fs");
 /* modules used */
 
-/* model de fonction exportable */
-/*
-exports.data = (req, res, next) => {
-}
-*/
 /* function add a sauce in bdd */
 exports.addSauce = (req, res, next) => {
   const dataInsert = JSON.parse(req.body.sauce);
@@ -26,9 +20,7 @@ exports.addSauce = (req, res, next) => {
     manufacturer: dataInsert.manufacturer,
     description: dataInsert.description,
     mainPepper: dataInsert.mainPepper,
-    imageUrl: `${req.protocol}://${req.get("host")}/uploadfiles/${
-      req.file.filename
-    }`,
+    imageUrl: `${req.protocol}://${req.get("host")}/uploadfiles/${req.file.filename}`,
     heat: dataInsert.heat,
     likes: like,
     dislikes: dislike,
@@ -43,6 +35,7 @@ exports.addSauce = (req, res, next) => {
       console.log("succes");
     } else {
       console.log("not save");
+      return res.status(400).json({message : 'error'});
     }
   });
 };
@@ -58,6 +51,7 @@ exports.deleteOne = (req, res, next) => {
       console.log("suppression de la sauce");
     } else {
       console.log("ça na pas marché");
+      return res.status(400).json({message : 'error'});
     }
   });
 };
@@ -70,6 +64,8 @@ exports.returnAll = (req, res, next) => {
     if (!err) {
       res.status(200).json(docs);
       console.log("renvoit tous les sauces");
+    }else{
+      return res.status(400).json({message : 'error'});
     }
   });
 };
@@ -82,6 +78,7 @@ exports.oneSauce = (req, res, next) => {
     if (!err) {
       res.status(200).json(docs);
     } else {
+      return res.status(400).json({message : 'error'});
     }
   });
 };
@@ -111,8 +108,10 @@ exports.modifySauce = (req, res, next) => {
         })
         .catch(() => {
           console.log("enr° not ok");
-          res.status(400).json({ error });
+          return res.status(400).json({message : 'error'});
         });
+    }else{
+      return res.status(401).json({message : 'error not found'});
     }
   });
 };
@@ -136,7 +135,6 @@ exports.likeAndDislike = (req, res, next) => {
       modelSauce.findOne({ _id: idCompare }, (err, docs) => {
 
         if (!err) {
-
           res.status(200).json({ message: "op" });
           docsTabLiked = docs.usersLiked; /* tableaux des likes */
           console.log(dataCompare);
@@ -145,20 +143,23 @@ exports.likeAndDislike = (req, res, next) => {
           test = docsTabLiked.includes(dataCompare.userId);
 
           if (test === false) {
-
             console.log(test);
             /* $push : ajoute userId ans l'array, et $inc : incremente dans la bdd */
             modelSauce.updateOne({ _id: idCompare },{$push: { usersLiked: dataCompare.userId },$inc: { likes: 1 },}, (err, docs) => {
             	if(!err){
             		res.json({message : 'like bien modifier'});
             	}else{
-            		res.status(400).json({message : 'error'});
+            		res.json({message : 'like non modifier'});
             	}
             });
 
+          }else{
+            test = true;
+            /* il es déjà dans le tableaux des likes */
           }
         } else {
-          test = true;
+            return res.status(401).json({message : 'not found'});
+
         }
       });
 
@@ -172,28 +173,32 @@ exports.likeAndDislike = (req, res, next) => {
 
         if (!err) {
           
-          res.status(200).json({ message: "op" });
-          docsTabLiked = docs.usersLiked; /* tableaux des likes */
+          res.json({ message: "sauce bien existant dans la db" });
+          docsTabDislike = docs.usersDisliked; /* tableaux des dislikes */
           console.log(dataCompare);
 
           /* vrefifier si userId est dans le tableaux */
-          test = docsTabLiked.includes(dataCompare.userId);
+          test = docsTabDislike.includes(dataCompare.userId);
 
           if (test === false) {
 
             console.log(test);
             /* $push : ajoute userId ans l'array, et $inc : incremente dans la bdd */
-            modelSauce.updateOne({ _id: idCompare },{$push: { usersLiked: dataCompare.userId },$inc: { likes: -1 },}, (err, docs) => {
+            modelSauce.updateOne({ _id: idCompare },{$push: { usersDisliked: dataCompare.userId },$inc: { dislikes: 1 },}, (err, docs) => {
               if(!err){
-                res.json({message : 'like bien modifier'});
+                res.status(200).json({message : 'dislikes bien modifier'});
               }else{
-                res.status(400).json({message : 'error'});
+                return res.status(400).json({message : 'error'});
               }
             });
 
+          }else{
+            test = true;
+            console.log('sauce déjà dislike'); 
           }
         } else {
-          test = true;
+            return res.status(401).json({message : 'error'});
+
         }
       });
 
