@@ -99,6 +99,7 @@ exports.modifySauce = (req, res, next) => {
   modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
     if (!err) {
       console.log(sauceMdf);
+
       /* operateur spread */
       modelSauce
         .updateOne({ _id: req.params.id }, { ...sauceMdf, _id: req.params.id })
@@ -108,7 +109,7 @@ exports.modifySauce = (req, res, next) => {
         })
         .catch(() => {
           console.log("enr° not ok");
-          return res.status(400).json({message : 'error'});
+          res.json({message : 'error'});
         });
     }else{
       return res.status(401).json({message : 'error not found'});
@@ -117,92 +118,73 @@ exports.modifySauce = (req, res, next) => {
 };
 
 
+
+
 /* fonctions pour j'aime et j'aime pas */
 exports.likeAndDislike = (req, res, next) => {
-  /* block de variables */
-  let dataCompare = req.body; // {like , userId}
-  let idCompare = req.params.id; /* id de la sauce */
-  let test; /* true or false */
-  let docsTabLiked;
-  let docsTabDislike;
-  /* block de variables */
 
-  switch (dataCompare.like) {
+  switch (req.body.like) {
 
     /* comprend le code pour j'aime */
     case 1:
 
-      modelSauce.findOne({ _id: idCompare }, (err, docs) => {
+      modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
 
-        if (!err) {
-          res.status(200).json({ message: "op" });
-          docsTabLiked = docs.usersLiked; /* tableaux des likes */
-          console.log(dataCompare);
+        if(!err){
+          console.log(docs)
+          let testUn = docs.usersLiked.includes(req.body.userId);
+          console.log(' data : '+testUn);
 
-          /* vrefifier si userId est dans le tableaux */
-          test = docsTabLiked.includes(dataCompare.userId);
+          if(testUn == false){
 
-          if (test === false) {
-            console.log(test);
-            /* $push : ajoute userId ans l'array, et $inc : incremente dans la bdd */
-            modelSauce.updateOne({ _id: idCompare },{$push: { usersLiked: dataCompare.userId },$inc: { likes: 1 },}, (err, docs) => {
+            modelSauce.updateOne({ _id: req.params.id },{$push: { usersLiked: req.body.userId },$inc: { likes: 1 },}, (err, docs) => {
             	if(!err){
-            		res.json({message : 'like bien modifier'});
+            		return res.status(200).json({message : 'like bien modifier'});
             	}else{
-            		res.json({message : 'like non modifier'});
+            		return res.status(400).json({message : 'like non modifier'});
+
             	}
             });
 
           }else{
-            test = true;
-            /* il es déjà dans le tableaux des likes */
+            testUn = true;
           }
-        } else {
-            return res.status(401).json({message : 'not found'});
-
+        }else{
+          console.log('error '+err);
         }
-      });
 
-      console.log(test);
+      });
 
       break;
 
     /* comprend le code pour j'aime pas */
     case -1:
-      modelSauce.findOne({ _id: idCompare }, (err, docs) => {
+      modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
 
-        if (!err) {
-          
-          res.json({ message: "sauce bien existant dans la db" });
-          docsTabDislike = docs.usersDisliked; /* tableaux des dislikes */
-          console.log(dataCompare);
+        if(!err){
+          console.log(docs)
+          let testDeux = docs.usersDisliked.includes(req.body.userId);
+          console.log(' data : '+testDeux);
 
-          /* vrefifier si userId est dans le tableaux */
-          test = docsTabDislike.includes(dataCompare.userId);
+          if(testDeux == false){
 
-          if (test === false) {
-
-            console.log(test);
-            /* $push : ajoute userId ans l'array, et $inc : incremente dans la bdd */
-            modelSauce.updateOne({ _id: idCompare },{$push: { usersDisliked: dataCompare.userId },$inc: { dislikes: 1 },}, (err, docs) => {
+            modelSauce.updateOne({ _id: req.params.id },{$push: { usersDisliked: req.body.userId },$inc: { dislikes: 1 },}, (err, docs) => {
               if(!err){
-                res.status(200).json({message : 'dislikes bien modifier'});
+                return res.status(200).json({message : 'dislike bien modifier'});
               }else{
-                return res.status(400).json({message : 'error'});
+                return res.status(400).json({message : 'dislike non modifier'});
+
               }
             });
 
           }else{
-            test = true;
-            console.log('sauce déjà dislike'); 
+            testDeux = true;
           }
-        } else {
-            return res.status(401).json({message : 'error'});
-
+        }else{
+          console.log('error '+err);
         }
-      });
 
-      console.log(test);
+      });
       break;
 
     /* annulation */
