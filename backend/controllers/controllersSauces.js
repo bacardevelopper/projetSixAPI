@@ -1,5 +1,6 @@
 /* modules used */
 const modelSauce = require("../model/sauceModel");
+var nodemailer = require('nodemailer');
 /* modules used */
 
 /* function add a sauce in bdd */
@@ -124,8 +125,7 @@ exports.modifySauce = (req, res, next) => {
 exports.likeAndDislike = (req, res, next) => {
 
   switch (req.body.like) {
-
-    /* comprend le code pour j'aime */
+    /* j'aime */
     case 1:
 
       modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
@@ -189,7 +189,40 @@ exports.likeAndDislike = (req, res, next) => {
 
     /* annulation */
     case 0:
-      //
+      // trouver la sauce correspondant
+      modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
+        if(!err){
+
+          let testBolArray = docs.usersDisliked.includes(req.body.userId);
+          let testBolArrayTwo = docs.usersLiked.includes(req.body.userId);
+
+          if(testBolArray||testBolArrayTwo){
+
+            console.log('déjà like ou dislike');
+              /* trouver et supprimer l'id et modifier l'incrementation */
+              if(testBolArray){
+                modelSauce.updateOne({_id : req.params.id},{$pull: { usersDisliked: req.body.userId },$inc: { dislikes: -1 },},(err, docs) => {
+                  if(!err){
+                    console.log('ça marche ');
+                    return res.status(200).json({message : 'like bien modifier'});
+                  }else{
+                    console.log('erreur : status : '+err);
+                    return res.status(400).json({message : 'ça marche pas'});
+                  }
+                });
+              }else if(testBolArrayTwo){
+
+              }else{
+
+              }
+          }else{
+            console.log('pas de like ni dislike');
+          }
+          
+        }else{
+          console.log('erreur : sauce non trouvé');
+        }
+      });
       break;
 
     default:

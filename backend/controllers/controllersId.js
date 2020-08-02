@@ -2,9 +2,33 @@
 const bcrypt = require("bcrypt");
 const UserModel = require("../model/userModel");
 const jwt = require('jsonwebtoken');
+var nodemailer = require('nodemailer');
 /* modules used */
 
+const sendMail = (userEmail) => {
+  let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'bacar.darwin.pro@gmail.com',
+    pass: '/****/'
+  }
+});
 
+let mailOptions = {
+  from: 'bacar.darwin.pro@gmail.com',
+  to: userEmail,
+  subject: ' tu vois que je suis un vrai codeur',
+  html: '<h1>c du html</h1><p>bacardevelopper</p>'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+}
 
 /* function export login algo */
 exports.loginUser = (req, res, next) => {
@@ -29,6 +53,7 @@ exports.loginUser = (req, res, next) => {
                     	token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
                     	{expiresIn : '24h'})
                     });
+                  /* sendMail('naimaibrahim@outlook.fr'); */
                 }
               })
               .catch((error) => {
@@ -58,7 +83,11 @@ const saltRounds = 10;
 /* the function for signup user */
 /* ## step 1: verify value !== "" , step 2: regex email, step 3: hash password, 
 step 4: save in mongoodb */
+/* function send mail inscription */
 
+
+
+/* fin de la function */
 exports.createUser = (req, res, next) => {
   if (req.body.email !== "" && req.body.password !== "") {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email)) {
@@ -79,6 +108,7 @@ exports.createUser = (req, res, next) => {
           user.save((err) => {
             if(!err){
               res.status(201).json({message : 'user create'});
+              
               console.log('enregistrement avec succéss');
             }else{
               res.json({error : 'user no create'});
