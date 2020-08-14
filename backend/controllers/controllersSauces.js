@@ -1,9 +1,9 @@
 /* modules used */
 const modelSauce = require("../model/sauceModel");
-var nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 /* modules used */
 
-/* function add a sauce in bdd */
+/* function add a sauce in DB */
 exports.addSauce = (req, res, next) => {
   const dataInsert = JSON.parse(req.body.sauce);
 
@@ -43,8 +43,7 @@ exports.addSauce = (req, res, next) => {
 
 
 
-/* function delete sauce in bdd */
-/* delete , /api/sauces/:id , {message : 'suppression reussi */
+/* function delete sauce in DB */
 exports.deleteOne = (req, res, next) => {
   modelSauce.deleteOne({ _id: req.params.id }, (err, docs) => {
     if (!err) {
@@ -59,27 +58,31 @@ exports.deleteOne = (req, res, next) => {
 
 
 
-/* function return all sauce in bdd */
+/* function return all sauce in DB */
 exports.returnAll = (req, res, next) => {
   modelSauce.find({}, (err, docs) => {
     if (!err) {
       res.status(200).json(docs);
       console.log("renvoit tous les sauces");
-    }else{
+
+    } else {
       return res.status(400).json({message : 'error'});
+
     }
   });
 };
 
 
 
-/* function return one sauce with _id */
+/* function return one sauce */
 exports.oneSauce = (req, res, next) => {
   modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
     if (!err) {
       res.status(200).json(docs);
+      console.log(docs);
     } else {
       return res.status(400).json({message : 'error'});
+
     }
   });
 };
@@ -121,11 +124,11 @@ exports.modifySauce = (req, res, next) => {
 
 
 
-/* fonctions pour j'aime et j'aime pas */
+/* function for like and dislike */
 exports.likeAndDislike = (req, res, next) => {
 
   switch (req.body.like) {
-    /* j'aime */
+    /* like */
     case 1:
 
       modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
@@ -157,7 +160,7 @@ exports.likeAndDislike = (req, res, next) => {
 
       break;
 
-    /* comprend le code pour j'aime pas */
+    /* dislike */
     case -1:
       modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
 
@@ -187,9 +190,9 @@ exports.likeAndDislike = (req, res, next) => {
       });
       break;
 
-    /* annulation */
+    
     case 0:
-      // trouver la sauce correspondant
+      // find sauce
       modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
         if(!err){
 
@@ -211,16 +214,24 @@ exports.likeAndDislike = (req, res, next) => {
                   }
                 });
               }else if(testBolArrayTwo){
-
+                modelSauce.updateOne({_id : req.params.id},{$pull: { usersLiked: req.body.userId },$inc: { likes: -1 },},(err, docs) => {
+                  if(!err){
+                    console.log('ça marche ');
+                    return res.status(200).json({message : 'like bien modifier'});
+                  }else{
+                    console.log('erreur : status : '+err);
+                    return res.status(400).json({message : 'ça marche pas'});
+                  }
+                });
               }else{
 
               }
           }else{
             console.log('pas de like ni dislike');
           }
-          
+
         }else{
-          console.log('erreur : sauce non trouvé');
+            console.log('erreur : sauce non trouvé');
         }
       });
       break;

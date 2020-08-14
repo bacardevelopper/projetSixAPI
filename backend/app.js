@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
+const helmet = require('helmet');
 /* modules used */
 
 /* routers used */
@@ -12,6 +13,7 @@ const routersSauce = require('./router/routersSauce');
 
 /* create app express */
 const app = express();
+app.use(helmet());
 
 /* connect dbb mongoose */
 mongoose.connect('mongodb+srv://bddDeryos:deryos976@cluster0-it6zi.mongodb.net/bddDeryos?retryWrites=true&w=majority', 
@@ -47,7 +49,7 @@ app.use(bodyParser.urlencoded({
 console.log(" ** hello world fullstack student ** ");
 
 app.use('/uploadfiles', express.static(path.join(__dirname, 'uploadfiles')));
-/* global middleware sauces et users*/
+/* global middleware sauces and users */
 app.use('/api/auth', routersUser);
 app.use('/api', routersSauce);
 
