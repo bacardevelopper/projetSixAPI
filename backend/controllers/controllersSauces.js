@@ -43,7 +43,7 @@ exports.addSauce = (req, res, next) => {
 
 
 
-/* function delete sauce in DB */
+/* function delete sauce in DB #promesse */
 exports.deleteOne = (req, res, next) => {
   modelSauce.deleteOne({ _id: req.params.id }, (err, docs) => {
     if (!err) {
@@ -60,29 +60,27 @@ exports.deleteOne = (req, res, next) => {
 
 /* function return all sauce in DB */
 exports.returnAll = (req, res, next) => {
-  modelSauce.find({}, (err, docs) => {
-    if (!err) {
-      res.status(200).json(docs);
-      console.log("renvoit tous les sauces");
-
-    } else {
-      return res.status(400).json({message : 'error'});
-
-    }
-  });
+    modelSauce.find({}, (err, docs) => {
+      if (!err) {
+        res.status(200).json(docs);
+        console.log("renvoit tous les sauces");
+      } else {
+        return res.status(400).json({message : 'error'});
+      }
+    });
 };
 
 
 
 /* function return one sauce */
 exports.oneSauce = (req, res, next) => {
-  modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
-    if (!err) {
-      res.status(200).json(docs);
-      console.log(docs);
-    } else {
-      return res.status(400).json({message : 'error'});
 
+  modelSauce.findOne({ _id:req.params.id}, (err, docs) => {
+    if(!err){
+      res.status(200).json(docs);
+      console.log(docs);      
+    }else{
+      return res.status(400).json({message : 'error'});      
     }
   });
 };
@@ -140,13 +138,14 @@ exports.likeAndDislike = (req, res, next) => {
 
           if(testUn == false){
 
-            modelSauce.updateOne({ _id: req.params.id },{$push: { usersLiked: req.body.userId },$inc: { likes: 1 },}, (err, docs) => {
-            	if(!err){
-            		return res.status(200).json({message : 'like bien modifier'});
-            	}else{
-            		return res.status(400).json({message : 'like non modifier'});
-
-            	}
+            modelSauce.updateOne({ _id: req.params.id },
+              {$push: { usersLiked: req.body.userId },$inc: { likes: 1 },},
+              (err, docs) => {
+                if(!err){
+                  return res.status(200).json({message : 'like bien modifier'});
+                }else{
+                  return res.status(400).json({message : 'like non modifier'});
+                }
             });
 
           }else{
@@ -171,13 +170,15 @@ exports.likeAndDislike = (req, res, next) => {
 
           if(testDeux == false){
 
-            modelSauce.updateOne({ _id: req.params.id },{$push: { usersDisliked: req.body.userId },$inc: { dislikes: 1 },}, (err, docs) => {
-              if(!err){
-                return res.status(200).json({message : 'dislike bien modifier'});
-              }else{
-                return res.status(400).json({message : 'dislike non modifier'});
+            modelSauce.updateOne({ _id: req.params.id },
+              {$push: { usersDisliked: req.body.userId },$inc: { dislikes: 1 },},
+              (err, docs) => {
+                if(!err){
+                  return res.status(200).json({message : 'dislike bien modifier'});
+                }else{
+                  return res.status(400).json({message : 'dislike non modifier'});
 
-              }
+                }
             });
 
           }else{

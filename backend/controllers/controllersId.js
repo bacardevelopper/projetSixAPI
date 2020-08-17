@@ -20,7 +20,7 @@ exports.loginUser = (req, res, next) => {
     console.table([req.body.email, masked]);
     UserModel.findOne({ email: req.body.email })
       .then((user) => {
-        console.log('adresse email user trouver');
+        
         if (user) {
           /* on compare les mot de passe si c'est le bon */
           bcrypt
@@ -29,7 +29,7 @@ exports.loginUser = (req, res, next) => {
                 
                 if (valid) {
                   /* retourner un token */
-                  res.status(200)
+                  return res.status(200)
                     .json({
                      	userId : user._id, 
                     	token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
@@ -39,10 +39,10 @@ exports.loginUser = (req, res, next) => {
                 }
               })
               .catch((error) => {
-                return res.status(401).json({message : error});
+                return res.status(401).json({message : 'erreur'});
               });
         } else {
-          return res.status(401).json({ error: "utilisateur non trouvé" });
+            return res.status(401).json({ error: "utilisateur non trouvé" });
         }
       })
       .catch((error) => {

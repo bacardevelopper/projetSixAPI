@@ -4,6 +4,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 //create a schema for user
 const Schema = mongoose.Schema;
+
 /* model instanciation */
 const user = new Schema({
 	email : {type : String, min : 4, required : true} ,
