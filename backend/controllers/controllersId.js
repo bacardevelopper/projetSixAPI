@@ -8,7 +8,7 @@ const mdata = require('maskdata');
 
 /* function export login algo */
 exports.loginUser = (req, res, next) => {
-  /* masquer mot de passe */
+  /* mask password */
   const maskPasswordOptions = {   
   maskWith : "*" , 
   maxMaskedCharacters : 16 
@@ -22,20 +22,19 @@ exports.loginUser = (req, res, next) => {
       .then((user) => {
         
         if (user) {
-          /* on compare les mot de passe si c'est le bon */
+          /* compare password */
           bcrypt
             .compare(req.body.password, user.password)
               .then((valid) => {
                 
                 if (valid) {
-                  /* retourner un token */
+                  /* return  token */
                   return res.status(200)
                     .json({
                      	userId : user._id, 
                     	token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
                     	{expiresIn : '24h'})
                     });
-                  /* sendMail('naimaibrahim@outlook.fr'); */
                 }
               })
               .catch((error) => {
@@ -60,10 +59,11 @@ exports.loginUser = (req, res, next) => {
 
 
 
-const saltRounds = 10;
-/* the function for signup user */
-/* fin de la function */
+
+/* function for signup user */
 exports.createUser = (req, res, next) => {
+  const saltRounds = 10;
+
   if (req.body.email !== "" && req.body.password !== "") {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email)) {
       

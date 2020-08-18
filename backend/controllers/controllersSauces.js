@@ -42,34 +42,31 @@ exports.addSauce = (req, res, next) => {
 };
 
 
-
 /* function delete sauce in DB #promesse */
 exports.deleteOne = (req, res, next) => {
-  modelSauce.deleteOne({ _id: req.params.id }, (err, docs) => {
-    if (!err) {
+  modelSauce.deleteOne({ _id: req.params.id })
+    .then(() => {
       res.status(200).json({ message: "la sauce a bien été supprimé" });
       console.log("suppression de la sauce");
-    } else {
+    })
+    .catch(() => {
       console.log("ça na pas marché");
       return res.status(400).json({message : 'error'});
-    }
-  });
+    });
 };
-
 
 
 /* function return all sauce in DB */
 exports.returnAll = (req, res, next) => {
     modelSauce.find({}, (err, docs) => {
-      if (!err) {
+      if(!err){
         res.status(200).json(docs);
-        console.log("renvoit tous les sauces");
-      } else {
-        return res.status(400).json({message : 'error'});
+        console.log("renvoit tous les sauces");       
+      }else{
+        return res.status(400).json({message : 'error'});  
       }
     });
 };
-
 
 
 /* function return one sauce */
@@ -78,9 +75,8 @@ exports.oneSauce = (req, res, next) => {
   modelSauce.findOne({ _id:req.params.id}, (err, docs) => {
     if(!err){
       res.status(200).json(docs);
-      console.log(docs);      
     }else{
-      return res.status(400).json({message : 'error'});      
+      return res.status(400).json({message : 'error'});
     }
   });
 };
@@ -102,7 +98,6 @@ exports.modifySauce = (req, res, next) => {
     if (!err) {
       console.log(sauceMdf);
 
-      /* operateur spread */
       modelSauce
         .updateOne({ _id: req.params.id }, { ...sauceMdf, _id: req.params.id })
         .then(() => {
