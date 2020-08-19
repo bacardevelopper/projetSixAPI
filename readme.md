@@ -1,4 +1,4 @@
-## For run this app follow this steps
+## For run this backend app follow this steps
 
 ## Step one
 git clone https://github.com/bacardevelopper/projetSixAPI.git
