@@ -46,7 +46,7 @@ app.use(bodyParser.urlencoded({
 	extended : true
 }));
 
-console.log(" ** hello world fullstack student ** ");
+/* console.log(" ** hello world fullstack student ** "); */
 
 app.use('/uploadfiles', express.static(path.join(__dirname, 'uploadfiles')));
 /* global middleware sauces and users */
