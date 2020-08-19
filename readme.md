@@ -3,8 +3,10 @@
 ## Step one
 git clone https://github.com/bacardevelopper/projetSixAPI.git
 
-## Step Two 
+## Step Two
+### Step A 
 cd projetSixAPI/backend
+### Step B
 npm i
 
 ## step tree
