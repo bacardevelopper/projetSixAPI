@@ -33,24 +33,20 @@ exports.addSauce = (req, res, next) => {
   sauceAdd.save((err) => {
     if (!err) {
       res.status(201).json({ message: "insert in bdd succes" });
-      console.log("succes");
     } else {
-      console.log("not save");
       return res.status(400).json({message : 'error'});
     }
   });
 };
 
 
-/* function delete sauce in DB #promesse */
+/* function delete sauce in DB */
 exports.deleteOne = (req, res, next) => {
   modelSauce.deleteOne({ _id: req.params.id })
     .then(() => {
       res.status(200).json({ message: "la sauce a bien été supprimé" });
-      console.log("suppression de la sauce");
     })
     .catch(() => {
-      console.log("ça na pas marché");
       return res.status(400).json({message : 'error'});
     });
 };
@@ -60,8 +56,7 @@ exports.deleteOne = (req, res, next) => {
 exports.returnAll = (req, res, next) => {
     modelSauce.find({}, (err, docs) => {
       if(!err){
-        res.status(200).json(docs);
-        console.log("renvoit tous les sauces");       
+        res.status(200).json(docs);      
       }else{
         return res.status(400).json({message : 'error'});  
       }
@@ -96,16 +91,13 @@ exports.modifySauce = (req, res, next) => {
 
   modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
     if (!err) {
-      console.log(sauceMdf);
 
       modelSauce
         .updateOne({ _id: req.params.id }, { ...sauceMdf, _id: req.params.id })
         .then(() => {
-          console.log("enr° ok");
           res.status(200).json({ message: "enr° ok" });
         })
         .catch(() => {
-          console.log("enr° not ok");
           res.json({message : 'error'});
         });
     }else{
@@ -127,9 +119,7 @@ exports.likeAndDislike = (req, res, next) => {
       modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
 
         if(!err){
-          console.log(docs)
           let testUn = docs.usersLiked.includes(req.body.userId);
-          console.log(' data : '+testUn);
 
           if(testUn == false){
 
@@ -147,7 +137,7 @@ exports.likeAndDislike = (req, res, next) => {
             testUn = true;
           }
         }else{
-          console.log('error '+err);
+          return res.status(400).json({message : 'error general'});
         }
 
       });
@@ -159,9 +149,7 @@ exports.likeAndDislike = (req, res, next) => {
       modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
 
         if(!err){
-          console.log(docs)
           let testDeux = docs.usersDisliked.includes(req.body.userId);
-          console.log(' data : '+testDeux);
 
           if(testDeux == false){
 
@@ -180,7 +168,6 @@ exports.likeAndDislike = (req, res, next) => {
             testDeux = true;
           }
         }else{
-          console.log('error '+err);
         }
 
       });
@@ -197,25 +184,20 @@ exports.likeAndDislike = (req, res, next) => {
 
           if(testBolArray||testBolArrayTwo){
 
-            console.log('déjà like ou dislike');
               /* trouver et supprimer l'id et modifier l'incrementation */
               if(testBolArray){
                 modelSauce.updateOne({_id : req.params.id},{$pull: { usersDisliked: req.body.userId },$inc: { dislikes: -1 },},(err, docs) => {
                   if(!err){
-                    console.log('ça marche ');
                     return res.status(200).json({message : 'like bien modifier'});
                   }else{
-                    console.log('erreur : status : '+err);
                     return res.status(400).json({message : 'ça marche pas'});
                   }
                 });
               }else if(testBolArrayTwo){
                 modelSauce.updateOne({_id : req.params.id},{$pull: { usersLiked: req.body.userId },$inc: { likes: -1 },},(err, docs) => {
                   if(!err){
-                    console.log('ça marche ');
                     return res.status(200).json({message : 'like bien modifier'});
                   }else{
-                    console.log('erreur : status : '+err);
                     return res.status(400).json({message : 'ça marche pas'});
                   }
                 });
@@ -223,16 +205,17 @@ exports.likeAndDislike = (req, res, next) => {
 
               }
           }else{
-            console.log('pas de like ni dislike');
+            /* console.log('pas de like ni dislike'); */
           }
 
         }else{
-            console.log('erreur : sauce non trouvé');
+            /* console.log('erreur : sauce non trouvé'); */
+            return res.status(400).json({message : 'no find sauce'});
         }
       });
       break;
 
     default:
-      console.log("si tu es ici c'est qui y'a un gros soucis mon coco");
+      /* console.log("error general"); */
   }
 };

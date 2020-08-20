@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const mdata = require('maskdata');
 /* modules used */
 
-
 /* function export login algo */
 exports.loginUser = (req, res, next) => {
   /* mask password */
@@ -17,7 +16,7 @@ exports.loginUser = (req, res, next) => {
   if (req.body.email !== "") {
     const masked = mdata.maskPassword(req.body.password, maskPasswordOptions);
     
-    console.table([req.body.email, masked]);
+    /* console.table([req.body.email, masked]); */
     UserModel.findOne({ email: req.body.email })
       .then((user) => {
         
@@ -35,6 +34,8 @@ exports.loginUser = (req, res, next) => {
                     	token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
                     	{expiresIn : '24h'})
                     });
+                }else{
+                  return res.status(400).json({message : 'error password'});
                 }
               })
               .catch((error) => {
@@ -52,7 +53,7 @@ exports.loginUser = (req, res, next) => {
 
   } else {
     return res.status(500).json({ error : "champ vide" });
-    console.log("champ vide");
+    /* console.log("champ vide"); */
   }
 };
 
@@ -70,7 +71,7 @@ exports.createUser = (req, res, next) => {
       bcrypt
         .hash(req.body.password, saltRounds)
           .then((hash) => {
-            console.log("Le hash  :" + hash + " et son :" + req.body.email);
+            /* console.log("Le hash  :" + hash + " et son :" + req.body.email); */
             const userValue = req.body;
 
             const user = new UserModel({
@@ -84,17 +85,18 @@ exports.createUser = (req, res, next) => {
                 res.status(201).json({message : 'user create'});
               })
               .catch(() => {
-                return res.status(400).json({error : 'user no create'});
-                console.log('user non enregistré');
+                return res.status(400).json({message : 'user no create'});
+                /* console.log('user non enregistré'); */
               });
 
           })
           .catch((error) => {
-            console.log(error);
+            /* console.log(error); */
           });
     }
 
   } else {
-    console.log("error sur les champs");
+    return res.status(400).json({message : 'error'})
+    /* console.log("error sur les champs"); */
   }
 };
