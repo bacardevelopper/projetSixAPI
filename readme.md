@@ -1,14 +1,14 @@
 ## For run this backend app follow this steps
 
-## Step one
+## Step 1
 git clone https://github.com/bacardevelopper/projetSixAPI.git
 
-## Step Two
-### Step A 
-cd projetSixAPI/backend
-### Step B
-npm i
+## Step 2
+	### Step A 
+		cd projetSixAPI/backend
+	### Step B
+	npm i
 
-## step tree
+## step 3
 npm start
 
