@@ -6,10 +6,10 @@ const nodemailer = require('nodemailer');
 /* function add a sauce in DB */
 exports.addSauce = (req, res, next) => {
   const dataInsert = JSON.parse(req.body.sauce);
-
+  /*
   console.log(dataInsert);
   console.log(dataInsert.name);
-
+  */
   const like = 0;
   const dislike = 0;
   const tabUserLike = [];

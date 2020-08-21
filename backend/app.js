@@ -48,6 +48,7 @@ app.use(bodyParser.urlencoded({
 
 /* console.log(" ** hello world fullstack student ** "); */
 
+/* serve static files, and join path global */
 app.use('/uploadfiles', express.static(path.join(__dirname, 'uploadfiles')));
 /* global middleware sauces and users */
 app.use('/api/auth', routersUser);
