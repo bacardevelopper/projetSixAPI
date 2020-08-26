@@ -13,6 +13,5 @@
 	npm start
 
 ## Pour le frontend
-````
+
 https://github.com/OpenClassrooms-Student-Center/dwj-projet6
-```
