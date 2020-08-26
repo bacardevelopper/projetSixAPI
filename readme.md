@@ -1,14 +1,18 @@
-## For run this backend app follow this steps
+## Pour fair fonctionner le backend suivez les instructions
 
-## Step 1
+## Etape 1
 	git clone https://github.com/bacardevelopper/projetSixAPI.git
 
-## Step 2
-### Step A 
+## Etape 2
+### Etape A 
 	cd projetSixAPI/backend
-### Step B
+### Etape B
 	npm i
 
-## step 3
+## Etape 3
 	npm start
 
+## Pour le frontend
+````
+https://github.com/OpenClassrooms-Student-Center/dwj-projet6
+```
