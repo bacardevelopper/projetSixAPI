@@ -2,21 +2,15 @@
 const bcrypt = require("bcrypt");
 const UserModel = require("../model/userModel");
 const jwt = require('jsonwebtoken');
-const mdata = require('maskdata');
 /* modules used */
 
 /* function export login algo */
 exports.loginUser = (req, res, next) => {
   /* mask password */
-  const maskPasswordOptions = {   
-  maskWith : "*" , 
-  maxMaskedCharacters : 16 
-  };
 
-  if (req.body.email !== "") {
-    const masked = mdata.maskPassword(req.body.password, maskPasswordOptions);
-    
-    /* console.table([req.body.email, masked]); */
+  if (req.body.email !== "" && req.body.password) {
+
+    console.table([req.body.email, req.body.password]);
     UserModel.findOne({ email: req.body.email })
       .then((user) => {
         
@@ -30,9 +24,9 @@ exports.loginUser = (req, res, next) => {
                   /* return  token */
                   return res.status(200)
                     .json({
-                     	userId : user._id, 
-                    	token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
-                    	{expiresIn : '24h'})
+                      userId : user._id, 
+                      token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
+                      {expiresIn : '24h'})
                     });
                 }else{
                   return res.status(400).json({message : 'error password'});
@@ -42,20 +36,19 @@ exports.loginUser = (req, res, next) => {
                 return res.status(401).json({message : 'erreur'});
               });
         } else {
-            return res.status(401).json({ error: "utilisateur non trouvé" });
+            return res.status(401).json({ error : "utilisateur non trouvé" });
+            
         }
       })
       .catch((error) => {
         
-        return res.status(500).json({ message :
-          "erreur verifier que vos id correspondent" });
+        return res.status(500).json({ message : "erreur verifier que vos id correspondent" });
       });
 
   } else {
-    return res.status(500).json({ error : "champ vide" });
-    /* console.log("champ vide"); */
+      return res.status(500).json({ error : "champ vide" });
   }
-};
+}
 
 
 

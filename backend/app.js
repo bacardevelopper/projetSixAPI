@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const helmet = require('helmet');
+
 /* modules used */
 
 /* routers used */
@@ -16,7 +17,7 @@ const app = express();
 app.use(helmet());
 
 /* connect dbb mongoose */
-mongoose.connect('mongodb+srv://bddDeryos:deryos976@cluster0-it6zi.mongodb.net/bddDeryos?retryWrites=true&w=majority', 
+mongoose.connect('mongodb+srv://bddnamedb:alfaromeo976@cluster0.it6zi.mongodb.net/bddnamedb?retryWrites=true&w=majority', 
 {
   useNewUrlParser: true,
   useUnifiedTopology: true,
