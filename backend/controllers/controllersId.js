@@ -8,19 +8,17 @@ const jwt = require('jsonwebtoken');
 exports.loginUser = (req, res, next) => {
   /* mask password */
 
-  if (req.body.email !== "" && req.body.password) {
+  if (req.body.email !== "" && req.body.password !== "") {
 
     /* console.table([req.body.email, req.body.password]); */
     UserModel.findOne({ email: req.body.email })
       .then((user) => {
         
-        if (user) {
           /* compare password */
           bcrypt
             .compare(req.body.password, user.password)
               .then((valid) => {
                 
-                if (valid) {
                   /* return  token */
                   return res.status(200)
                     .json({
@@ -28,21 +26,16 @@ exports.loginUser = (req, res, next) => {
                       token : jwt.sign({userId : user._id}, 'TOKEN_IS_FREE_OPEN_SOURCE',
                       {expiresIn : '24h'})
                     });
-                }else{
-                  return res.status(400).json({message : 'error password'});
-                }
               })
               .catch((error) => {
-                return res.status(401).json({message : 'erreur'});
+                return res.status(400).json({message : 'erreur'});
               });
-        } else {
-            return res.status(401).json({ error : "utilisateur non trouvé" });
-            
-        }
+
       })
       .catch((error) => {
-        
+        /* console.log(res) */
         return res.status(500).json({ message : "erreur verifier que vos id correspondent" });
+        ;
       });
 
   } else {
