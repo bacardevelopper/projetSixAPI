@@ -1,5 +1,5 @@
 ## Pour fair fonctionner le backend suivez les instructions
-
+D'abord extraire le dossier
 ## Etape 1
 	git clone https://github.com/bacardevelopper/projetSixAPI.git
 
