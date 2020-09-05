@@ -83,15 +83,12 @@ exports.modifySauce = (req, res, next) => {
   const sauceMdf = req.file
     ? {
         ...req.body,
-        imageUrl: `${req.protocol}://${req.get("host")}/uploadfiles/${
-          req.file.filename
-        }`,
+        imageUrl: `${req.protocol}://${req.get("host")}/uploadfiles/${req.file.filename}`,
       }
     : { ...req.body };
 
   modelSauce.findOne({ _id: req.params.id }, (err, docs) => {
     if (!err) {
-
       modelSauce
         .updateOne({ _id: req.params.id }, { ...sauceMdf, _id: req.params.id })
         .then(() => {
@@ -135,6 +132,7 @@ exports.likeAndDislike = (req, res, next) => {
 
           }else{
             testUn = true;
+
           }
         }else{
           return res.status(400).json({message : 'error general'});
