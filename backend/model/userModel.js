@@ -8,7 +8,7 @@ const Schema = mongoose.Schema;
 
 /* model */
 const user = new Schema({
-	email : {type : String, min : 4, required : true} ,
+	email : {type : String, min : 4, unique : true, required : true} ,
 	password : {type : String, min : 4, required : true}
 });
 
